@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generals</title>
+  <link href="./styles.css" rel="stylesheet" />
+  <script src="./gameplay.js" defer></script>
+</head>
+
+<body>
+  <div id="game-wrap">
+    <div id="hud">
+      <div class="legend"></div>
+      <span id="turn-label">Turn 0</span>
+      <div id="speed-wrap">
+        Speed:
+        <button onclick="setSpeed(2000)" id="sp-slow">0.5×</button>
+        <button onclick="setSpeed(1000)" id="sp-norm">1×</button>
+        <button onclick="setSpeed(500)" id="sp-fast">2×</button>
+      </div>
+    </div>
+    <div id="tick-bar-wrap">
+      <div id="tick-bar"></div>
+    </div>
+    <div id="wrap-rel">
+      <div id="canvas-wrap"><canvas id="gc"></canvas></div>
+      <div id="overlay">
+        <div id="overlay-box">
+          <h2>Generals</h2>
+          <p>Capture enemy generals to win. Click a cell then an adjacent cell to move troops. Generals ★ produce troops
+            every turn, cities 🏙 every 2 turns.</p>
+          <button onclick="startGame()">Start Game</button>
+        </div>
+      </div>
+    </div>
+    <div id="sidebar">
+      <div class="stat-box"><span>Army</span><b id="s-army">0</b></div>
+      <div class="stat-box"><span>Land</span><b id="s-land">0</b></div>
+      <div class="stat-box"><span>Cities</span><b id="s-cities">0</b></div>
+      <div class="stat-box"><span>Generals</span><b id="s-gens">1</b></div>
+      <table id="leaderboard">
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Land</th>
+            <th>Army</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <span id="msg">Turns tick automatically every second</span>
+    </div>
+  </div>
+</body>
+
+</html>
