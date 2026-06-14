@@ -5,7 +5,8 @@ const CELL = 32; // Pixel size of each cell
 const PLAINS = 0; // Open cell type, can be owned and have armies
 const MOUNTAIN = -1; // Impassable cell type, cannot be owned or have armies
 const CITY = -2; // Special cell type, can be owned and have armies, provides extra troops each turn
-const NUM_PLAYERS = 4; // Set to 2-8 for variable player count
+const DEFAULT_NUM_PLAYERS = 4; // Default player count shown in UI
+let numPlayers = DEFAULT_NUM_PLAYERS;
 
 const PLAYER_COLORS = [
   { color: "#4A90D9", dark: "#2563a8", name: "You" },
@@ -48,30 +49,12 @@ function generatePlayers(count) {
   }
 }
 
-// Animate the tick progress bar (for demonstration purposes, can be removed if not needed)
-const bar = document.getElementById("tick-bar");
-
-/**
- * Animates the tick progress bar by resetting its width and then transitioning it to full width over the specified duration.
- * @param {*} ms - duration of the animation in milliseconds
- */
-function animateBar(ms) {
-  bar.style.transition = "none";
-  bar.style.width = "0%";
-  requestAnimationFrame(() =>
-    requestAnimationFrame(() => {
-      bar.style.transition = `width ${ms}ms linear`;
-      bar.style.width = "100%";
-    }),
-  );
-}
-
 /**
  * Initializes the game state, including generating players, creating the grid, placing mountains and cities,
  * and setting up player spawn points.
  */
 function initGame() {
-  generatePlayers(NUM_PLAYERS);
+  generatePlayers(numPlayers);
 
   // Initialize grid and related arrays as 2D arrays filled with default values
   grid = Array.from({ length: ROWS }, () => Array(COLS).fill(PLAINS));
@@ -447,7 +430,7 @@ function showGameOver(won) {
   gameActive = false;
   clearInterval(tickInterval);
   let box = document.getElementById("overlay-box");
-  box.innerHTML = `<h2 style="color:${won ? "#5BAD6F" : "#E05252"}">${won ? "Victory!" : "Defeated"}</h2>
+  box.innerHTML = `<h2 style="color:${won ? "#006600" : "#B30000"}">${won ? "Victory!" : "Defeated"}</h2>
     <p>${won ? "All enemy generals captured!" : "Your general was captured."} Survived ${turn} turns.</p>
     <button onclick="startGame()">Play Again</button>`;
   document.getElementById("overlay").style.display = "flex";
@@ -511,10 +494,6 @@ function updateHUD() {
         army += armies[r][c];
         if (grid[r][c] === CITY) citiesOwned++;
       }
-  document.getElementById("s-army").textContent = army;
-  document.getElementById("s-land").textContent = land;
-  document.getElementById("s-cities").textContent = citiesOwned;
-  document.getElementById("s-gens").textContent = generals[1] ? 1 : 0;
   document.getElementById("turn-label").textContent = "Turn " + turn;
   updateLeaderboard();
 }
@@ -532,6 +511,12 @@ function setMsg(t) {
  * Sets the speed of the game ticks.
  * @param {number} ms - The interval in milliseconds between ticks.
  */
+function getPlayerCount() {
+  const select = document.getElementById("player-count-select");
+  const value = parseInt(select?.value, 10);
+  return Number.isInteger(value) ? Math.max(2, Math.min(8, value)) : DEFAULT_NUM_PLAYERS;
+}
+
 function setSpeed(ms) {
   tickSpeed = ms;
   ["slow", "norm", "fast"].forEach(
@@ -550,10 +535,8 @@ function setSpeed(ms) {
  * @returns {void}
  */
 function startTick() {
-  animateBar(tickSpeed);
   tickInterval = setInterval(() => {
     tickTurn();
-    animateBar(tickSpeed);
   }, tickSpeed);
 }
 
@@ -671,22 +654,9 @@ function startGame() {
   document.getElementById("overlay").style.display = "none";
   gameActive = true;
   turn = 0;
+  numPlayers = getPlayerCount();
   initGame();
-  updateLegend();
   setSpeed(tickSpeed);
-}
-
-function updateLegend() {
-  const legend = document.querySelector(".legend");
-  let html = "";
-  PLAYERS.forEach((p) => {
-    html += `<div class="leg"><div class="leg-sq" style="background:${p.color}"></div>${p.name}</div>`;
-  });
-  html +=
-    '<div class="leg"><div class="leg-sq" style="background:#555"></div>Mountain</div>';
-  html +=
-    '<div class="leg"><div class="leg-sq" style="background:#c5c0b0"></div>Fog</div>';
-  legend.innerHTML = html;
 }
 
 setSpeed(1000);

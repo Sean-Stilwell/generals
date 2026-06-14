@@ -3,6 +3,7 @@
   --color-background-secondary: #ffffff;
   --color-text-primary: #333333;
   --color-text-secondary: #666666;
+  --color-text-emphasis: #1D518B;
   --color-border-primary: #cccccc;
   --color-border-secondary: #999999;
   --color-border-tertiary: #dddddd;
@@ -11,7 +12,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 #game-wrap {
   width: 100%;
@@ -19,19 +20,14 @@
   display: flex;
   flex-direction: column;
 }
-#hud {
+#header {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   padding: 10px 12px;
   border-bottom: 0.5px solid var(--color-border-tertiary);
   flex-wrap: wrap;
-}
-.legend {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-  align-items: center;
 }
 .leg {
   display: flex;
@@ -45,65 +41,30 @@
   height: 12px;
   border-radius: 2px;
 }
-#turn-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  margin-left: auto;
-}
 #wrap-rel {
   position: relative;
   flex: 1;
   display: flex;
-  flex-direction: column;
-}
-#canvas-wrap {
-  flex: 1;
-  overflow: auto;
-  display: flex;
-  align-items: flex-start;
+  flex-direction: row;
   justify-content: center;
+  gap: 12px;
   padding: 8px;
   background: var(--color-background-secondary);
+}
+#canvas-wrap {
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background-secondary);
+  border-radius: 4px;
 }
 #gc {
   cursor: default;
   display: block;
 }
-#sidebar {
-  padding: 10px 12px;
-  border-top: 0.5px solid var(--color-border-tertiary);
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  flex-wrap: wrap;
-}
-.stat-box {
-  font-size: 11px;
-  color: var(--color-text-secondary);
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.stat-box b {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-#msg {
-  font-size: 12px;
-  color: var(--color-text-secondary);
-  margin-left: auto;
-  font-style: italic;
-}
-#speed-wrap {
-  display: flex;
-  margin-left: 2rem;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--color-text-secondary);
-}
+
+/* Leaderboard */
 #leaderboard {
   font-size: 11px;
   color: var(--color-text-secondary);
@@ -111,7 +72,6 @@
   border: 0.5px solid var(--color-border-tertiary);
   border-radius: 4px;
   overflow: hidden;
-  margin-left: auto;
 }
 #leaderboard th {
   background: var(--color-background-secondary);
@@ -128,13 +88,26 @@
 #leaderboard tr:last-child td {
   border-bottom: none;
 }
+#leaderboard-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  overflow: auto;
+}
+h1 {
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+}
+
+/* Overlay */
 #overlay {
   position: absolute;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--color-background-primary);
   z-index: 10;
   border-radius: var(--border-radius-lg);
 }
@@ -157,8 +130,18 @@
   margin-bottom: 18px;
   line-height: 1.5;
 }
+
+/* Bottom controls - Speed buttons, turn label, message */
+#tools {
+  padding: 10px 12px;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
 button {
-  font-size: 13px;
+  font-size: 12px;
   padding: 7px 18px;
   border: 0.5px solid var(--color-border-secondary);
   border-radius: var(--border-radius-md);
@@ -170,14 +153,57 @@ button {
 button:hover {
   background: var(--color-background-secondary);
 }
-#tick-bar-wrap {
-  height: 3px;
-  background: var(--color-border-tertiary);
-  position: relative;
+#speed-wrap {
+  display: flex;
+  margin-left: 2rem;
+  margin-right: auto;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
 }
-#tick-bar {
-  height: 3px;
-  background: #4a90d9;
-  width: 0%;
-  transition: width linear;
+#players-wrap {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-left: 2rem;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+#player-count-select {
+  font-size: 12px;
+  padding: 6px 10px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  background: var(--color-background-primary);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+#turn-label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-left: auto;
+}
+#msg {
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  margin-left: auto;
+  margin-right: auto;
+  font-style: italic;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 12px;
+  border-top: 0.5px solid var(--color-border-tertiary);
+  color: var(--color-text-secondary);
+  font-size: 16px;
+}
+
+footer a {
+  color: var(--color-text-emphasis);
+  text-decoration: none;
 }

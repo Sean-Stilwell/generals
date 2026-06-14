@@ -11,21 +11,23 @@
 
 <body>
   <div id="game-wrap">
-    <div id="hud">
-      <div class="legend"></div>
-      <span id="turn-label">Turn 0</span>
-      <div id="speed-wrap">
-        Speed:
-        <button onclick="setSpeed(2000)" id="sp-slow">0.5×</button>
-        <button onclick="setSpeed(1000)" id="sp-norm">1×</button>
-        <button onclick="setSpeed(500)" id="sp-fast">2×</button>
-      </div>
-    </div>
-    <div id="tick-bar-wrap">
-      <div id="tick-bar"></div>
+    <div id="header">
+      <h1>★ Generals</h1>
     </div>
     <div id="wrap-rel">
       <div id="canvas-wrap"><canvas id="gc"></canvas></div>
+      <div id="leaderboard-wrap">
+        <table id="leaderboard">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Land</th>
+              <th>Army</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
       <div id="overlay">
         <div id="overlay-box">
           <h2>Generals</h2>
@@ -35,24 +37,32 @@
         </div>
       </div>
     </div>
-    <div id="sidebar">
-      <div class="stat-box"><span>Army</span><b id="s-army">0</b></div>
-      <div class="stat-box"><span>Land</span><b id="s-land">0</b></div>
-      <div class="stat-box"><span>Cities</span><b id="s-cities">0</b></div>
-      <div class="stat-box"><span>Generals</span><b id="s-gens">1</b></div>
-      <table id="leaderboard">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Land</th>
-            <th>Army</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <span id="msg">Turns tick automatically every second</span>
+    <div id="tools">
+      <span id="turn-label">Turn 0</span>
+      <div id="players-wrap">
+        Players:
+        <select id="player-count-select">
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4" selected>4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </div>
+      <div id="speed-wrap">
+        Speed:
+        <button onclick="setSpeed(2000)" id="sp-slow">0.5×</button>
+        <button onclick="setSpeed(1000)" id="sp-norm">1×</button>
+        <button onclick="setSpeed(500)" id="sp-fast">2×</button>
+      </div>
     </div>
+    <span id="msg">Turns tick automatically every second</span>
   </div>
+  <footer>
+    <p>Developed by <a href="https://seanstilwell.ca/">Sean Stilwell</a>. Based on the <a href="https://generals.io/">original game.</a></p>
+  </footer>
 </body>
 
 </html>
